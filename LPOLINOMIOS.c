@@ -9,11 +9,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct{
+typedef struct Nodou Nodou;
+struct Nodou{
 	int coeficiente;
 	int potencia;
 	struct Nodou * siguiente;
-}Nodou;
+};
 
 Nodou * inicio1 = NULL;
 Nodou * ultimo1 = NULL;
