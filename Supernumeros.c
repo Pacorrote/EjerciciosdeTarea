@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 typedef struct Numero Numero;
 struct Numero{
     int digito;
@@ -19,37 +18,41 @@ Numero *iniciom=NULL;
 Numero *ultimom=NULL;
 void creareinsertar1(int dato);
 void creareinsertar2(int dato);
-Numero *creareinsertarresultado(int dato, int opcion);
+void imprimirresultado1();
+void imprimirresultado2();
+void imprimirresultado3();
 void suma();
 void resta();
-void multiplicacion(int filas, int columnas);
-void imprimirresultado(Numero *i);
-int main(int argc, char *argv[]) {
+void multiplicacion();
+int main(int argc, const char * argv[]){
     long numero1, numero2;
     int digito, filas=0, columnas=0;
     printf("Inserte numero 1: ");
     scanf("%ld", &numero1);
     printf("Inserte numero 2: ");
     scanf("%ld", &numero2);
-    while(numero1>1){
+    while(numero1>=1){
         digito=numero1%10;
         numero1/=10;
         creareinsertar1(digito);
         columnas++;
+        //printf("%i", digito);
     }
-    while(numero2>1){
+    printf(" \n");
+    while(numero2>=1){
         digito=numero2%10;
         numero2/=10;
-        creareinsertar1(digito);
+        creareinsertar2(digito);
         filas++;
+       // printf("%i ", digito);
     }
     suma();
-    imprimirresultado(inicios);
+    imprimirresultado1();
     resta();
-    imprimirresultado(inicior);
-    multiplicacion(filas,columnas);
-    imprimirresultado(iniciom);
-    return 0;
+    imprimirresultado2();
+    multiplicacion();
+    imprimirresultado3();
+return 0;
 }
 void creareinsertar1(int dato){
     Numero *Nuevodigito = malloc(sizeof(Numero));
@@ -57,23 +60,26 @@ void creareinsertar1(int dato){
     Nuevodigito->anterior=NULL;
     Nuevodigito->siguiente=NULL;
     Numero *aux;
-    Numero *at;
     if (inicio1==NULL){
         inicio1=Nuevodigito;
         ultimo1=Nuevodigito;
-        aux=ultimo1;
+        aux=inicio1;
     }
     else{
-        at=aux->anterior;
-        while(at->anterior!=NULL){
-            at=at->anterior;
-            inicio1=at;
-            aux=aux->anterior;
+        if(ultimo1->anterior!=NULL){
+            aux=ultimo1->anterior;
+            while (aux->anterior!=NULL) {
+                aux=aux->anterior;
+            }
+            Nuevodigito->siguiente=aux;
+            aux->anterior=Nuevodigito;
+            inicio1=Nuevodigito;
         }
-        at->anterior=Nuevodigito;
-        at=Nuevodigito;
-        inicio1=at;
-        at->siguiente=aux;
+        else{
+            inicio1=Nuevodigito;
+            inicio1->siguiente=ultimo1;
+            ultimo1->anterior=Nuevodigito;
+        }
     }
 }
 void creareinsertar2(int dato){
@@ -81,107 +87,41 @@ void creareinsertar2(int dato){
     Nuevodigito->digito = dato;
     Nuevodigito->anterior=NULL;
     Nuevodigito->siguiente=NULL;
-    Numero *at;
     Numero *aux;
     if (inicio2==NULL){
         inicio2=Nuevodigito;
         ultimo2=Nuevodigito;
-        aux=ultimo2;
     }
     else{
-        at=aux->anterior;
-        while(at->anterior!=NULL){
-            at=at->anterior;
-            inicio2=at;
-            aux=aux->anterior;
+        if(ultimo2->anterior!=NULL){
+            aux=ultimo2->anterior;
+            while (aux->anterior!=NULL) {
+                aux=aux->anterior;
+            }
+            Nuevodigito->siguiente=aux;
+            aux->anterior=Nuevodigito;
+            inicio2=Nuevodigito;
         }
-        at->anterior=Nuevodigito;
-        at=Nuevodigito;
-        inicio2=at;
-        at->siguiente=aux;
+        else{
+            inicio2=Nuevodigito;
+            inicio2->siguiente=ultimo1;
+            ultimo2->anterior=Nuevodigito;
+        }
     }
 }
-Numero *creareinsertarresultado(int dato, int opcion){
-    Numero *Nuevodigito = malloc(sizeof(Numero));
-    Numero *at;
-    Numero *aux;
-    Numero *de;
-    switch(opcion){
-        case 1:
-            
-            Nuevodigito->digito = dato;
-            Nuevodigito->anterior=NULL;
-            Nuevodigito->siguiente=NULL;
-            
-            if (inicios==NULL){
-                inicios=Nuevodigito;
-                ultimos=Nuevodigito;
-                aux=ultimos;
-            }
-            else{
-                at=aux->anterior;
-                while(at->anterior!=NULL){
-                    at=at->anterior;
-                    inicios=at;
-                    aux=aux->anterior;
-                }
-                at->anterior=Nuevodigito;
-                at=Nuevodigito;
-                inicios=at;
-                at->siguiente=aux;
-            }
-            break;
-        case 2:
-            
-            Nuevodigito->digito = dato;
-            Nuevodigito->anterior=NULL;
-            Nuevodigito->siguiente=NULL;
-            if (inicior==NULL){
-                inicior=Nuevodigito;
-                ultimor=Nuevodigito;
-                aux=ultimos;
-            }
-            else{
-                at=aux->anterior;
-                while(at->anterior!=NULL){
-                    at=at->anterior;
-                    inicios=at;
-                    aux=aux->anterior;
-                }
-                at->anterior=Nuevodigito;
-                at=Nuevodigito;
-                inicios=at;
-                at->siguiente=aux;
-            }
-            break;
-        case 3:
-            Nuevodigito->digito = dato;
-            Nuevodigito->anterior=NULL;
-            Nuevodigito->siguiente=NULL;
-            if (iniciom==NULL){
-                iniciom=Nuevodigito;
-                ultimom=Nuevodigito;
-                aux=iniciom;
-            }
-            else{
-                de=aux->siguiente;
-                while(de->siguiente!=NULL){
-                    de=de->siguiente;
-                    ultimom=de;
-                    aux=aux->siguiente;
-                }
-                de->siguiente=Nuevodigito;
-                de=Nuevodigito;
-                ultimom=de;
-                de->anterior=aux;
-            }
-            break;
+void imprimirresultado2(){
+    
+    Numero *aux=inicior->anterior;
+    while (aux!=NULL) {
+        printf("%d", aux->digito);
+        aux=aux->siguiente;
     }
-    return opcion==1? inicios: opcion==2? inicior: iniciom;
+    
 }
 void suma(){
     Numero * aux1=ultimo1;
     Numero * aux2=ultimo2;
+    Numero *sumalist;
     if(aux1==NULL || aux2==NULL){
         printf("Una de las dos listas estan vacias\n");
     }
@@ -191,116 +131,171 @@ void suma(){
             sumadigito=(aux1->digito)+(aux2->digito)+acarreo;
             sumadigito1=sumadigito%10;
             acarreo/=10;
-            Numero *suma=creareinsertarresultado(sumadigito1, 1);
+            sumalist=malloc(sizeof(Numero));
+            sumalist->digito=sumadigito1;
+            sumalist->anterior=NULL;
+            sumalist->siguiente=NULL;
+            if(inicios==NULL){
+                inicios=sumalist;
+                ultimos=inicios;
+            }
+            else{
+                if(ultimos->anterior!=NULL){
+                    inicios=ultimos->anterior;
+                    while (inicios->anterior!=NULL) {
+                        inicios=inicios->anterior;
+                    }
+                    sumalist->siguiente=inicios;
+                    inicios->anterior=sumalist;
+                }
+                else{
+                    inicios=sumalist;
+                    inicios->siguiente=ultimos;
+                    ultimos->anterior=sumalist;
+                }
+            }
             aux1=aux1->anterior;
             aux2=aux2->anterior;
         }
     }
 }
+void imprimirresultado1(){
+    
+    Numero *aux=inicios->anterior;
+    while (aux!=NULL) {
+        printf("%d", aux->digito);
+        aux=aux->siguiente;
+    }
+}
 void resta(){
     Numero * aux1=ultimo1;
     Numero * aux2=ultimo2;
-    Numero * prestado=aux1->anterior;
+    Numero *restalist;
     if(aux1==NULL || aux2==NULL){
         printf("Una de las dos listas estan vacias\n");
     }
     else{
         int restadigito;
         while(aux1!=NULL || aux2!=NULL){
-            if((aux1->digito)>(aux2->digito))
-                restadigito=(aux1->digito)-(aux2->digito);
-            else {
-                restadigito=((aux1->digito)+10)-(aux2->digito);
-                prestado->digito=(prestado->digito)-1;
+            if((inicio1->digito)>(inicio2->digito)){
+                if((aux1->digito)>(aux2->digito)){
+                    restadigito=(aux1->digito)-(aux2->digito);
+                }
+                else{
+                    restadigito=((aux1->digito+10))-(aux2->digito);
+                    aux1->anterior->digito+=-1;
+                }
             }
-            Numero *resta=creareinsertarresultado(restadigito, 2);
+            else{
+                if(aux1==inicio1 || aux2==inicio2){
+                    restadigito=(aux2->digito)-(aux1->digito);
+                    restadigito=restadigito*1;
+                }
+                else{
+                    if((aux2->digito)>(aux1->digito)){
+                        restadigito=(aux2->digito)-(aux1->digito);
+                    }
+                    else{
+                        restadigito=((aux2->digito+10))-(aux1->digito);
+                        aux2->anterior->digito+=-1;
+                    }
+                }
+            }
+            restalist=malloc(sizeof(Numero));
+            restalist->digito=restadigito;
+            restalist->anterior=NULL;
+            restalist->siguiente=NULL;
+            if(inicios==NULL){
+                inicios=restalist;
+                ultimos=inicios;
+            }
+            else{
+                if(ultimos->anterior!=NULL){
+                    inicios=ultimos->anterior;
+                    while (inicios->anterior!=NULL) {
+                        inicios=inicios->anterior;
+                    }
+                    restalist->siguiente=inicios;
+                    inicios->anterior=restalist;
+                }
+                else{
+                    inicios=restalist;
+                    inicios->siguiente=ultimos;
+                    ultimos->anterior=restalist;
+                }
+            }
             aux1=aux1->anterior;
             aux2=aux2->anterior;
-            prestado=prestado->anterior;
         }
     }
 }
-void multiplicacion(int filas, int columnas){
-    Numero * aux1=ultimo1;
-    Numero * aux2=ultimo2;
-    int matriz[filas][columnas];
-    int i=0, j;
-    if(aux1==NULL || aux2==NULL){
-        printf("Una de las dos listas estan vacias\n");
-    }
-    else{
-        int ayudante;
-        while(aux2!=NULL){
-            int acarreo=0, j=1;
-            while(aux1->anterior!=NULL){
-                ayudante=((aux1->digito)*(aux2->digito))+acarreo;
-                acarreo=ayudante/10;
-                matriz[i][(columnas)-j]=ayudante%10;
-                aux1=aux1->anterior;
-                j+=1;
-            }
-            aux2=aux2->anterior;
-            i=i+1;
+void multip(int dato){
+    for(int i=0;i<dato;i++){
+        Numero *Nuevodigito = malloc(sizeof(Numero));
+        Nuevodigito->digito = 10;
+        Nuevodigito->anterior=NULL;
+        Nuevodigito->siguiente=NULL;
+        Numero *aux;
+        if (iniciom==NULL){
+            iniciom=Nuevodigito;
+            ultimom=Nuevodigito;
         }
-        int arrayaux[(filas+columnas)-1];
-        int suma=0, i1, j1, resultado, w=(filas+columnas)-3, acarreo1=0;
-        for(j=columnas; j>=1; j--){
-            for(i=0; i<filas; i++){
-                if(i==0 && j==3)
-                    arrayaux[(filas+columnas)-2]=matriz[0][columnas-1];
-                else if (i==0 && j==1){
-                    suma=0;
-                    for (i1=0; i1<filas; i1++){
-                        for (j1=0; j1<columnas; j1++){
-                            if (i1==j1)
-                                suma+=matriz[i1][j1];
-                        }
-                    }
-                    resultado=suma%10;
-                    arrayaux[filas-1]=resultado+acarreo1;
-                    acarreo1=suma/10;
-                    suma=0;
-                    for(int l=1; l<filas-1; l++){
-                        suma=0;
-                        for(i1=l; i1<3; i1++){
-                            for (j1=0; j1<3; j1++){
-                                if(i1==j1+i)
-                                    suma+=matriz[i1][j1+l];
-                            }
-                        }
-                        suma-=1;
-                        resultado=suma%10;
-                        arrayaux[l]=resultado+acarreo1;
-                        acarreo1=suma/10;
-                        suma=0;
-                    }
+        else{
+            if(ultimom->anterior!=NULL){
+                aux=ultimom->anterior;
+                while (aux->anterior!=NULL) {
+                    aux=aux->anterior;
                 }
-                else if(i==2 && j==1)
-                    arrayaux[0]=matriz[filas-1][0]+acarreo1;
-                else{
-                    suma=0;
-                    if (i+j<4)
-                        //2. aqui empezamos a poner los acarreos;
-                        suma+=matriz[i][j+i];
-                    resultado=suma%10;
-                    arrayaux[w]=resultado+acarreo1;
-                    acarreo1=suma/10;
-                    w-=1;
-                }
+                Nuevodigito->siguiente=aux;
+                aux->anterior=Nuevodigito;
+                iniciom=Nuevodigito;
             }
-        }
-        Numero *m;
-        int parametro;
-        for(i=0; i<(filas+columnas)-1; i++){
-            parametro=arrayaux[i];
-            m=creareinsertarresultado(parametro, 3);
+            else{
+                iniciom=Nuevodigito;
+                iniciom->siguiente=ultimom;
+                ultimom->anterior=Nuevodigito;
+            }
         }
     }
 }
-void imprimirresultado(Numero *i){
-    Numero *aux=i;
-    while(aux->siguiente!=NULL){
-        printf("%d",aux->digito);
+void multiplicacion(){
+    int acarreo=0,acarreos=0,digito,multi;
+    Numero *aux2=ultimo2;
+    int a2=0;
+    while(aux2!=NULL){
+        Numero *aux1=ultimo1;
+        Numero *aux3=ultimom;
+        acarreo=0;
+        acarreos=0;
+        for(int ac=0;ac<a2;ac++){
+            aux3=aux3->anterior;
+        }
+        while(aux1!=NULL){
+            multi=((aux1->digito)*(aux2->digito))+acarreo;
+            acarreo = multi/10;
+            digito = multi%10;
+            if(aux3->digito==10){
+                aux3->digito=((aux3->digito)-10)+digito;
+            }
+            else{
+                aux3->digito=(aux3->digito)+digito+acarreos;
+                acarreos=(aux3->digito)/10;
+                (aux3->digito)=(aux3->digito)%10;
+            }
+            aux3=aux3->anterior;
+            aux1 = aux1->anterior;
+        }
+        if(acarreo>0){
+            aux3->digito=((aux3->digito)-10)+acarreo;
+        }
+        aux2=aux2->anterior;
+        a2+=1;
+    }
+}
+void imprimirresultado3(){
+    Numero *aux=iniciom->anterior;
+    while (aux!=NULL) {
+        printf("%d", aux->digito);
         aux=aux->siguiente;
     }
 }
