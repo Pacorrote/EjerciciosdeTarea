@@ -15,7 +15,7 @@ Nodo *CrearNuevoNodo(char caracter){
 	Nodo *Nuevonodo=NULL;
 	Nuevonodo=(Nodo *)malloc(sizeof(Nodo));
 	if(Nuevonodo!=NULL){
-		Nuevonodo->caracter=caractero;
+		Nuevonodo->caracter=caracter;
 		Nuevonodo->siguiente=Nuevonodo;
 	}
 	return Nuevonodo;
@@ -60,7 +60,7 @@ void encriptado(){
 	file = fopen("mensaje.txt", "w+");
 	char caracter;
 	int suma=0;
-	nodo *aux = inicio;
+	Nodo *aux = inicio;
 	while(feof(file)==0){
 		caracter = fgetc(file);
 		if (file==NULL)
@@ -78,7 +78,7 @@ void desencriptado(){
 	file = fopen("mensaje.txt", "r+");
 	char c;
 	int suma=0;
-	nodo *aux = inicio;
+	Nodo *aux = inicio;
 	while(feof(file)==0){
 		c = fgetc(file);
 		int pas = aux->caracter;
