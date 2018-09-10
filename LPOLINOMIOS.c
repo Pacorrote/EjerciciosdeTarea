@@ -11,11 +11,10 @@
 
 typedef struct Nodou Nodou;
 struct Nodou{
-	int coeficiente;
-	int potencia;
-	struct Nodou * siguiente;
+    int coeficiente;
+    int potencia;
+    struct Nodou * siguiente;
 };
-
 Nodou * inicio1 = NULL;
 Nodou * ultimo1 = NULL;
 Nodou * inicio2 = NULL;
@@ -34,31 +33,66 @@ void ordenarpolinomio2();
 void simplificarpolinimio2();
 void suma();
 void resta();
+void imprimirresultado1();
+void imprimirresultado2();
+void imprimirresultado3();
+void imprimirresultado4();
 int main(int argc, const char * argv[]) {
-
+    int coeficiente1, coeficiente2, potencia1, potencia2;
+    int polinomios1, polinomios2;
+    printf("Inserte el numero de terminos a ingresar: ");
+    scanf("%d", &polinomios1);
+    for(int i=0; i<polinomios1; i++){
+        printf("Inserte coefinciente y potencia: ");
+        scanf("%d %d", &coeficiente1, &potencia1);
+        creareinsertar1(coeficiente1, potencia1);
+    }
+    printf("Inserte el numero de terminos a ingresar: ");
+    scanf("%d", &polinomios2);
+    for(int i=0; i<polinomios2; i++){
+        printf("Inserte coefinciente y potencia: ");
+        scanf("%d %d", &coeficiente2, &potencia2);
+        creareinsertar2(coeficiente2, potencia2);
+    }
+    imprimirresultado1();
+    printf("\n\n");
+    imprimirresultado2();
+    printf("\n\n");
+    ordenarpolinomio1();
+    imprimirresultado3();
+    printf("\n\n");
+    ordenarpolinomio2();
+    imprimirresultado4();
+    //printf("\n\n");
+    //simplificarpolinimio1();
+    //imprimirresultado3();
+    /*printf("\n\n");
+    simplificarpolinimio2();
+    imprimirresultado4();*/
     return 0;
 }
 void creareinsertar1(int coeficiente, int potencia){
-	Nodou *Nuevonodo=malloc(sizeof(Nodou));
-	Nuevonodo->coeficiente=coeficiente;
-	Nuevonodo->potencia=potencia;
-	Nuevonodo->siguiente=NULL;
-	Nodou *aux;
-	if (inicio1==NULL){
-		inicio1=Nuevonodo;
-		ultimo1=Nuevonodo;
-		aux=inicio1;
-	}
-	else{
-		while(aux->siguiente!=NULL){
-			aux=aux->siguiente;
+    Nodou *Nuevonodo=malloc(sizeof(Nodou));
+    Nuevonodo->coeficiente=coeficiente;
+    Nuevonodo->potencia=potencia;
+    Nuevonodo->siguiente=NULL;
+    Nodou *aux;
+    if (inicio1==NULL){
+        inicio1=Nuevonodo;
+        ultimo1=Nuevonodo;
+        aux=inicio1;
+    }
+    else{
+        aux=inicio1;
+        while(aux->siguiente!=NULL){
+            aux=aux->siguiente;
             ultimo1=aux;
-		}
-		aux->siguiente=Nuevonodo;
+        }
+        aux->siguiente=Nuevonodo;
         ultimo1->siguiente=aux->siguiente;
-		aux=Nuevonodo;
-		ultimo1=aux;
-	}
+        aux=Nuevonodo;
+        ultimo1=aux;
+    }
 }
 void creareinsertar2(int coeficiente, int potencia){
     Nodou *Nuevonodo=malloc(sizeof(Nodou));
@@ -69,66 +103,37 @@ void creareinsertar2(int coeficiente, int potencia){
     if (inicio2==NULL){
         inicio2=Nuevonodo;
         ultimo2=Nuevonodo;
-		aux=inicio2;
+        aux=inicio2;
     }
     else{
+        aux=inicio2;
         while(aux->siguiente!=NULL){
             aux=aux->siguiente;
             ultimo2=aux;
         }
         aux->siguiente=Nuevonodo;
         ultimo2->siguiente=aux->siguiente;
-		aux=Nuevonodo;
-		ultimo2=aux;
+        aux=Nuevonodo;
+        ultimo2=aux;
     }
 }
-Nodou * creareinsertarresultado(int coeficiente, int potencia, int opcion){
-	Nodou * Nuevonodo=malloc(sizeof(Nodou));
-	switch(opcion){
-	case 1:	
-	Nuevonodo->coeficiente=coeficiente;
-	Nuevonodo->potencia=potencia;
-	Nuevonodo->siguiente=NULL;
-	Nodou *aux1;
-	if (inicio==NULL){
-		inicio=Nuevonodo;
-		ultimo=Nuevonodo;
-		aux1=inicio;
-	}
-	else{
-		while(aux1->siguiente!=NULL){
-			aux1=aux1->siguiente;
-			ultimo=aux1;
-		}
-		aux1->siguiente=Nuevonodo;
-		ultimo->siguiente=aux1->siguiente;
-		aux1=Nuevonodo;
-		ultimo=aux1;
-	}
-	break;
-	case 2:
-		Nuevonodo->coeficiente=coeficiente;
-		Nuevonodo->potencia=potencia;
-		Nuevonodo->siguiente=NULL;
-		Nodou *aux2;
-		if (inicio==NULL){
-			inicior=Nuevonodo;
-			ultimor=Nuevonodo;
-			aux2=inicior;
-		}
-		else{
-			while(aux2->siguiente!=NULL){
-				aux2=aux2->siguiente;
-				ultimor=aux2;
-			}
-			aux2->siguiente=Nuevonodo;
-			ultimor->siguiente=aux2->siguiente;
-			aux2=Nuevonodo;
-			ultimor=aux2;
-		}
-		break;
-	}
-	return opcion==1? inicio: inicior;
+void imprimirresultado1(){
+    
+    Nodou *aux=inicio1;
+    while (aux!=NULL) {
+        printf("%dx^%d ", aux->coeficiente, aux->potencia);
+        aux=aux->siguiente;
+    }
+    
+}
+void imprimirresultado2(){
+    
+    Nodou *aux=inicio2;
+    while (aux!=NULL) {
+        printf("%dx^%d ", aux->coeficiente, aux->potencia);
+        aux=aux->siguiente;
+    }
+    
 }
 void ordenarpolinomio1(){
     if(inicio1!=NULL){
@@ -157,7 +162,7 @@ void ordenarpolinomio1(){
         }
     }
     else{
-    printf("Lista vacia\n");
+        printf("Lista vacia\n");
     }
 }
 void ordenarpolinomio2(){
@@ -184,65 +189,72 @@ void ordenarpolinomio2(){
                 PIVOTE=PIVOTE->siguiente;
                 aux=PIVOTE;
             }
+            
         }
     }
     else{
         printf("Lista vacia\n");
     }
 }
-
+void imprimirresultado3(){
+    Nodou *aux=inicio1;
+    while (aux!=NULL) {
+        printf("%dx^%d ", aux->coeficiente, aux->potencia);
+        aux=aux->siguiente;
+    }
+    
+}
+void imprimirresultado4(){
+    Nodou *aux=inicio2;
+    while (aux!=NULL) {
+        printf("%dx^%d ", aux->coeficiente, aux->potencia);
+        aux=aux->siguiente;
+    }
+    
+}
 void simplificarpolinimio1(){
-	Nodou * PIVOTE=inicio1;
-	Nodou * aux=PIVOTE;
-	ordenarpolinomio1();
-	while(PIVOTE!=NULL){
-		aux=aux->siguiente;
-		if(aux->potencia==PIVOTE->potencia){
-			PIVOTE->coeficiente+=aux->coeficiente;
-			PIVOTE->siguiente=aux->siguiente;
-			free(aux);
-		}
-		PIVOTE=PIVOTE->siguiente;
-		aux=PIVOTE;
-	}
+    Nodou *PIVOTE=inicio1;
+    if(PIVOTE!=NULL){
+        Nodou *aux=PIVOTE;
+        while (PIVOTE->siguiente!=NULL) {
+            aux=aux->siguiente;
+            if(PIVOTE->potencia==aux->potencia && aux!=NULL){
+                while(PIVOTE->potencia==aux->potencia && aux!=NULL && PIVOTE->siguiente!=NULL){
+                    PIVOTE->coeficiente=PIVOTE->coeficiente+aux->coeficiente;
+                    PIVOTE->siguiente=aux->siguiente;
+                    aux->siguiente=NULL;
+                    free(aux);
+                    aux=PIVOTE->siguiente;
+                }
+            }
+            PIVOTE=PIVOTE->siguiente;
+            aux=PIVOTE;
+        }
+    }
+    else
+        printf("Lista vacia");
 }
 void simplificarpolinimio2(){
-	Nodou * PIVOTE=inicio2;
-	Nodou * aux=PIVOTE;
-	ordenarpolinomio2();
-	while(PIVOTE!=NULL){
-		aux=aux->siguiente;
-		if(aux->potencia==PIVOTE->potencia){
-			PIVOTE->coeficiente+=aux->coeficiente;
-			PIVOTE->siguiente=aux->siguiente;
-			free(aux);
-		}
-		PIVOTE=PIVOTE->siguiente;
-		aux=PIVOTE;
-	}
+    Nodou *PIVOTE=inicio2;
+    Nodou *aux=PIVOTE;
+    while(PIVOTE->siguiente!=NULL){
+        aux=aux->siguiente;
+        if(PIVOTE->potencia==aux->potencia && PIVOTE!=NULL && aux!=NULL){
+            do{
+                PIVOTE->coeficiente+=aux->coeficiente;
+                PIVOTE->siguiente=aux->siguiente;
+                aux->siguiente=NULL;
+                free(aux);
+                if(PIVOTE->siguiente!=NULL)
+                    aux=PIVOTE->siguiente;
+                else
+                    aux=PIVOTE;
+            }while(PIVOTE->potencia==aux->potencia && PIVOTE!=NULL && aux!=NULL);
+        }
+        PIVOTE=PIVOTE->siguiente;
+        aux=PIVOTE;
+    }
 }
-void suma(){
-	Nodou * aux1=inicio1;
-	Nodou * aux2=inicio2;
-	
-	while(aux1!=NULL || aux2!=NULL){
-		if(aux1->potencia==aux2->potencia){
-			Nodou * suma = creareinsertarresultado((aux1->coeficiente) + (aux2->coeficiente),aux2->potencia, 1);
-		}
-		aux1=aux1->siguiente;
-		aux2=aux2->siguiente;
-	}
-}
-void resta(){
-	Nodou * aux1=inicio1;
-	Nodou * aux2=inicio2;
-	
-	while(aux1!=NULL || aux2!=NULL){
-		if(aux1->potencia==aux2->potencia){
-			Nodou * resta = creareinsertarresultado((aux1->coeficiente) - (aux2->coeficiente),aux2->potencia, 2);
-		}
-		aux1=aux1->siguiente;
-		aux2=aux2->siguiente;
-	}
-}
+
+
 
